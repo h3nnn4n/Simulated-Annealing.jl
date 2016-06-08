@@ -1,3 +1,5 @@
+using Gadfly
+
 include("readFile.jl")
 include("cnf.jl")
 include("temps.jl")
@@ -11,6 +13,10 @@ function main(name)
     t_n     = 0.0
     iter    = 0
     temp    = linear
+    x       = []
+    y       = []
+    plotInt = 5
+    canDraw = true
 
     while iter < maxIter
         T     = temp(t_0, t_n, iter, maxIter)
@@ -20,6 +26,14 @@ function main(name)
         t_new = energy(s_new, formula)
         p     = rand()
         Δc    = t_new - t
+
+        if iter % plotInt == 0 || t == 0
+            if canDraw
+                push!(x, iter)
+                push!(y, t   )
+            end
+            println("$iter \t $t")
+        end
 
         if t == 0
             break
@@ -31,11 +45,15 @@ function main(name)
             s_i = s_new
         end
 
-        if iter % 10^2 == 0
-            println(iter, "\t", energy(s_i, formula))
-        end
-
     end
 
-    println("$(energy(s_i, formula)) $iter")
+    if canDraw
+        draw(PNG("out.png", 800px, 600px),
+            plot(x = x, y = y, Geom.line,
+            Theme(background_color=colorant"white"),
+            Guide.xlabel("Time"),
+            Guide.ylabel("Objetive function"),
+            Guide.title("Simulated Annealing for 3cnf-sat"))
+            )
+    end
 end
