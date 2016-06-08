@@ -32,7 +32,7 @@ function main(name)
         end
 
         if iter % 10^2 == 0
-            println(i, "\t", energy(s_i, formula))
+            println(iter, "\t", energy(s_i, formula))
         end
 
     end
