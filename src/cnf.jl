@@ -3,9 +3,9 @@ function evaluate(vars, formula)
     for clausule in formula
         a, b, c = clausule[1], clausule[2], clausule[3]
 
-        x1 = a > 0 ? vars[a] : vars[-a]
-        x2 = b > 0 ? vars[b] : vars[-b]
-        x3 = c > 0 ? vars[c] : vars[-c]
+        x1 = a > 0 ? vars[a] : !vars[-a]
+        x2 = b > 0 ? vars[b] : !vars[-b]
+        x3 = c > 0 ? vars[c] : !vars[-c]
 
         v = x1 || x2 || x3
 
