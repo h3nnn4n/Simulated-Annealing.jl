@@ -10,14 +10,14 @@ function main(name)
     formula  = readFormula(name)
     s_i      = map( x -> x == 1, rand(0:1,size))
     maxIter  = 5 * 10^5
-    t_0      = 100.0
+    t_0      = 220.0
     t_n      = 0.0
     iter     = 0
     temp     = linear
     x        = []
     y        = []
     ytemp    = []
-    plotInt  = 5
+    plotInt  = 10^3
     canDraw  = false
     progress = false
 
@@ -36,7 +36,9 @@ function main(name)
                 push!(y    , t   )
                 push!(ytemp, T   )
             end
-            #=println("$iter \t $t")=#
+            if progress
+                println("$iter \t $t")
+            end
         end
 
         if t == 0
@@ -48,7 +50,6 @@ function main(name)
         elseif exp( -Δc / T ) < p
             s_i = s_new
         end
-
     end
 
     if canDraw
@@ -67,5 +68,5 @@ function main(name)
             Guide.title("Simulated Annealing for 3cnf-sat"))
             )
     end
-    return toq()
+    return iter < maxIter ? toq() : -1
 end
