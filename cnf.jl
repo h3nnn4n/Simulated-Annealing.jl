@@ -15,7 +15,7 @@ function evaluate(vars, formula)
     return vals
 end
 
-function temp(vars, formula)
+function energy(vars, formula)
     q = length(filter( x -> x, evaluate(vars, formula)))
     p = length(formula)
 
