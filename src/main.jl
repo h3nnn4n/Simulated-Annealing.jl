@@ -68,5 +68,5 @@ function main(name)
             Guide.title("Simulated Annealing for 3cnf-sat"))
             )
     end
-    return iter < maxIter ? toq() : -1
+    return iter < maxIter ? (toq(), iter, true) : (toq(), iter, false)
 end
