@@ -10,7 +10,7 @@ function main(name)
     formula  = readFormula(name)
     s_i      = map( x -> x == 1, rand(0:1,size))
     maxIter  = 5 * 10^5
-    t_0      = 100.0
+    t_0      = 20.0
     t_n      = 0.0
     iter     = 0
     temp     = hyperbolic_cos
@@ -22,7 +22,7 @@ function main(name)
     plotInt  = 10^3
     canDraw  = false
     progress = false
-    scale    = 25.0
+    scale    = 50.0
 
     while iter < maxIter
         T     = temp(t_0, t_n, iter, maxIter)
