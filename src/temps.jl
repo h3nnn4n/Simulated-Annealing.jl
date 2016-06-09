@@ -9,7 +9,7 @@ function logaritmic(t_0, t_n, i, n)
 end
 
 function hyperbolic_cos(t_0, t_n, i, n)
-     return (t_0 - t_n) / cosh(10.0 * (i/n))
+     return (t_0 - t_n) / cosh(6.0 * (i/n))
 end
 
 function accept_default(Δc, T, t_0)
