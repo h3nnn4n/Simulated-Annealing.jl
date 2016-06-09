@@ -19,7 +19,8 @@ function energy(vars, formula)
     q = length(filter( x -> x, evaluate(vars, formula)))
     p = length(formula)
 
-    return 1.0 - q/p
+    #=return 1.0 - q/p=#
+    return p - q
 end
 
 function neighbour(vars)
