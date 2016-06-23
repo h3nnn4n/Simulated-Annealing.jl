@@ -18,9 +18,9 @@ function main(name)
     x              = []
     y              = []
     ytemp          = []
-    plotInt        = 1 * 10^4
-    progressInt    = 5 * 10^3
-    canDraw        = false
+    plotInt        = 1 * 10^2
+    progressInt    = 5 * 10^2
+    canDraw        = true
     progress       = false
     scale          = 50.0
     stopOnSolution = false
@@ -35,7 +35,7 @@ function main(name)
         p     = rand()
         Δc    = t_new - t
 
-        if canDraw && ( iter % plotInt == 0 || t == 0 )
+        if canDraw && ( iter % plotInt == 0 || iter == 0 )
             push!(x    , iter          )
             push!(y    , t             )
             push!(ytemp, T             )
@@ -65,7 +65,7 @@ function main(name)
         end
     end
 
-    if canDraw
+    if canDraw && false
         name  = @sprintf("out_obj_%s.png", splitext(basename(name))[1])
         draw(PNG("out_obj.png", 800px, 600px),
             plot(
@@ -98,5 +98,5 @@ function main(name)
         )
     end
 
-    return (toq(), solvedIter, solved)
+    return (toq(), solvedIter, solved, x, y)
 end
