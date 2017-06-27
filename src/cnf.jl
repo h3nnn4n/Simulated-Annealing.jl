@@ -1,23 +1,84 @@
-function evaluate(vars, formula)
-    vals = []
-    for clausule in formula
-        a, b, c = clausule[1], clausule[2], clausule[3]
+f3_size = 10
+deceptiveN_size = 0
+deceptiveN_nbits = 0
 
-        x1 = a > 0 ? vars[a] : !vars[-a]
-        x2 = b > 0 ? vars[b] : !vars[-b]
-        x3 = c > 0 ? vars[c] : !vars[-c]
+function change_deceptiveN_size( nsize :: Int, nbits :: Int )
+    global deceptiveN_size  = nsize
+    global deceptiveN_nbits = nbits
+end
 
-        v = x1 || x2 || x3
+function change_f3_size( nsize :: Int )
+    global f3_size = nsize
+end
 
-        push!(vals, v)
+function eval_f3( vet )
+    if     reduce(&, true, vet .== [false, false, false])
+        return 28
+    elseif reduce(&, true, vet .== [false, false, true ])
+        return 26
+    elseif reduce(&, true, vet .== [false, true , false])
+        return 22
+    elseif reduce(&, true, vet .== [true , false, false])
+        return 14
+    elseif reduce(&, true, vet .== [true , true , true ])
+        return 30
+    else
+        return 0
     end
 
-    return vals
+    return 0
+end
+
+function objf_f3( ind )
+    obj = 0
+    gens = ind
+
+    for i in 1:f3_size
+        obj += eval_f3(gens[(i-1)*3+1:i*3])
+    end
+
+    return obj
+end
+
+function objf_f3s( ind )
+    obj = 0
+    gens = [x for x in ind]
+
+    for i in 1:f3_size
+        obj += eval_f3([gens[i], gens[i + 10], gens[i+20]])
+    end
+
+    return obj
+end
+
+function objf_deceptiveN( ind )
+    obj = 0
+    gens = [x for x in ind]
+
+    for i in 1:deceptiveN_size
+        v = sum(gens[(i-1) * deceptiveN_nbits + 1: i * deceptiveN_nbits])
+
+        if v == 0
+            obj += deceptiveN_nbits + 1
+        else
+            obj += v
+        end
+    end
+
+    return obj
+end
+
+###
+
+function evaluate(vars, formula)
+    return objf_f3( vars )
+    #=return objf_f3s( vars )=#
+    #=return objf_deceptiveN( vars )=#
 end
 
 function energy(vars, formula)
-    q = length(filter( x -> x, evaluate(vars, formula)))
-    p = length(formula)
+    q = evaluate(vars, formula)
+    p = 300
 
     #=return 1.0 - q/p=#
     return p - q
