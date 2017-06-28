@@ -1,4 +1,4 @@
-f3_size = 10
+f3_size = 0
 deceptiveN_size = 0
 deceptiveN_nbits = 0
 
@@ -71,14 +71,14 @@ end
 ###
 
 function evaluate(vars, formula)
-    return objf_f3( vars )
+    #=return objf_f3( vars )=#
     #=return objf_f3s( vars )=#
-    #=return objf_deceptiveN( vars )=#
+    return objf_deceptiveN( vars )
 end
 
 function energy(vars, formula)
     q = evaluate(vars, formula)
-    p = 300
+    p = 160
 
     #=return 1.0 - q/p=#
     return p - q

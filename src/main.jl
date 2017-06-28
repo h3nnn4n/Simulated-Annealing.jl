@@ -5,15 +5,16 @@ include("temps.jl")
 function main()
     tic()
 
-    res = 10
-    nbits = 3
+    res = 32
+    nbits = 4
 
     change_f3_size(res)
+    change_deceptiveN_size(res, nbits)
 
     size           = res * nbits
     formula        = 0
     s_i            = map( x -> x == 1, rand(0:1, size))
-    maxIter        = 5 * 10^4
+    maxIter        = 5 * 10^3
     t_0            = 20.0
     t_n            = 0.0
     iter           = 0
@@ -24,7 +25,7 @@ function main()
     ytemp          = []
     progressInt    = 1 * 10^2
     progressInt    = 1
-    progress       = true
+    progress       = false
     scale          = 1.0
 
     best           = 300
@@ -59,7 +60,7 @@ function main()
         end
     end
 
-    println(bb)
+    #=println(bb)=#
     println(best)
 
     #=return (toq(), solvedIter, solved, x, y)=#
