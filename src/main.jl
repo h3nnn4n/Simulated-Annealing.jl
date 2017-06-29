@@ -1,5 +1,4 @@
-include("readFile.jl")
-include("cnf.jl")
+include("problems.jl")
 include("temps.jl")
 
 function main()
@@ -13,8 +12,9 @@ function main()
 
     size           = res * nbits
     formula        = 0
-    s_i            = map( x -> x == 1, rand(0:1, size))
-    maxIter        = 5 * 10^3
+    #=s_i            = map( x -> x == 1, rand(0:1, size))=#
+    s_i            = (rand(Float64, 10) .* 10.0) .- 5.0
+    maxIter        = 1 * 10^8
     t_0            = 20.0
     t_n            = 0.0
     iter           = 0
@@ -23,9 +23,8 @@ function main()
     x              = []
     y              = []
     ytemp          = []
-    progressInt    = 1 * 10^2
-    progressInt    = 1
-    progress       = false
+    progressInt    = 1 * 10^5
+    progress       = true
     scale          = 1.0
 
     best           = 300
@@ -50,7 +49,7 @@ function main()
         end
 
         if progress && ( iter % progressInt == 0 )
-            @printf("%6.2f %6.2f %6.2f %6.2f %6.2f\n", 100.0*iter/maxIter, t, T, Δc, acceptf(Δc, T, t_0))
+            @printf("%10.2f %10.2f %10.2f %10.2f %10.2f %10.2f\n", 100.0*iter/maxIter, t, T, Δc, acceptf(Δc, T, t_0), best)
         end
 
         if Δc < 0.0
@@ -60,7 +59,7 @@ function main()
         end
     end
 
-    #=println(bb)=#
+    println(bb)
     println(best)
 
     #=return (toq(), solvedIter, solved, x, y)=#

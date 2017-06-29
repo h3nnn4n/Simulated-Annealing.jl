@@ -1,3 +1,5 @@
+using Distributions
+
 f3_size = 0
 deceptiveN_size = 0
 deceptiveN_nbits = 0
@@ -68,25 +70,76 @@ function objf_deceptiveN( ind )
     return obj
 end
 
+function objf_rosen( ind )
+    d = length(ind)
+
+    xi    = ind[1:d-1]
+    xnext = ind[2:d]
+
+    s = mapfoldr(x -> 100.0 * (x[2] - x[1]^2.0)^2.0 + (x[1] - 1.0)^2.0, +, collect(zip(xi, xnext)))
+
+    return s
+end
+
+function objf_sphere( ind )
+    obj = 0.0
+
+    s = length(ind)
+
+    for i in 1:s
+        obj += ind[i] ^ 2.0
+    end
+
+    return obj
+end
+
 ###
 
 function evaluate(vars, formula)
     #=return objf_f3( vars )=#
     #=return objf_f3s( vars )=#
-    return objf_deceptiveN( vars )
+    #=return objf_deceptiveN( vars )=#
+    #=return objf_sphere( vars )=#
+    return objf_rosen( vars )
 end
 
 function energy(vars, formula)
     q = evaluate(vars, formula)
     p = 160
 
+
+    return q
+
     #=return 1.0 - q/p=#
-    return p - q
+    #=return p - q=#
 end
 
 function neighbour(vars)
     nv    = copy(vars)
     p       = rand(1:length(vars))
-    nv[p] = !nv[p]
+
+    #=nv[p] = !nv[p]=#
+    nv[p] += rand(Normal(0, .25))
+
+    for i in 1:length(vars)
+        nv[p] = clamp(nv[p], -5.12, 5.12)
+    end
+
     return nv
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
